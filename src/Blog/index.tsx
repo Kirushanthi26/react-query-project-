@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
 import { fetchPosts } from "./Services/api";
 import { useState } from "react";
-import PostDetailes, { type Post } from "./Components/PostDetailes";
+import PostDetailes from "./Components/PostDetailes";
+import type { Post } from "./types";
 
 const BlogHomePage = () => {
-  const [pageNumber, setPageNumber] = useState(1);
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [pageNumber, setPageNumber] = useState(1); // current page number
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null); // selected post
+
   const {
     data: posts,
     isLoading,
@@ -13,26 +15,33 @@ const BlogHomePage = () => {
   } = useQuery<Post[]>({
     queryKey: ["posts", pageNumber],
     queryFn: () => fetchPosts(pageNumber),
-  });
+  }); // fetch posts from API
 
   const goToPage = (nextPage: number) => {
+    // go to next page
     setPageNumber(nextPage);
     setSelectedPost(null);
-  };
+  }; // reset selected post
 
   return (
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-2xl font-bold text-center mb-4">Blog Home Page</h1>
+
+      {/* loading state */}
       {isLoading && (
         <div className="text-center text-blue-500 font-bold text-lg animate-pulse">
           Loading...
         </div>
       )}
+
+      {/* error state */}
       {error && (
         <div className="text-center text-red-500 font-bold text-lg">
           Error: {error.message}
         </div>
       )}
+
+      {/* posts list */}
       <ul className="space-y-2 text-lg">
         {posts?.map((post) => (
           <li key={post.id}>

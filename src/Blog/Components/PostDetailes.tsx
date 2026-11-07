@@ -1,24 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  deletePost,
-  fetchComments,
-  updatePost,
-} from "../Services/api";
-
-export type Post = {
-  id: number;
-  title: string;
-  body: string;
-  userId: number;
-};
-
-type Comment = {
-  id: number;
-  postId: number;
-  name: string;
-  email: string;
-  body: string;
-};
+import { deletePost, fetchComments, updatePost } from "../Services/api";
+import type { Post, Comment } from "../types";
 
 type PostDetailesProps = {
   post: Post;
