@@ -15,6 +15,8 @@ const BlogHomePage = () => {
   } = useQuery<Post[]>({
     queryKey: ["posts", pageNumber],
     queryFn: () => fetchPosts(pageNumber),
+    staleTime: 2000, // 2 seconds
+    gcTime: 5000, // 5 seconds
   }); // fetch posts from API
 
   const goToPage = (nextPage: number) => {
